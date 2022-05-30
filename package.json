@@ -1,0 +1,20 @@
+{
+  "name": "space-4x",
+  "version": "0.0.1",
+  "description": "A 4X strategy game set in space (because the world needed another one)",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "keywords": ["space", "game", "strategy"],
+  "author": "Tim Leach",
+  "license": "ISC",
+  "devDependencies": {
+    "phaser": "^3.55.2",
+    "ts-loader": "^9.3.0",
+    "typescript": "^4.7.2",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2"
+  }
+}
