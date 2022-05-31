@@ -24,6 +24,8 @@ class MyScene extends Phaser.Scene
     const moonShape = new Phaser.Geom.Circle(11, 11, 10);
     this.moon.setInteractive(moonShape, Phaser.Geom.Circle.Contains);
 
+    this.input.setPollAlways();
+
     this.earth.on('pointerover', function () {
       this.earth.setTint(0xffaaaa);
     }, this);
