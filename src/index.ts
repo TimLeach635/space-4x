@@ -17,6 +17,28 @@ class MyScene extends Phaser.Scene
     this.background.depth = -100;
     this.earth = this.add.image(200, 150, "earth");
     this.moon = this.add.image(200, 150, "moon");
+
+    const earthShape = new Phaser.Geom.Circle(41, 41, 40);
+    this.earth.setInteractive(earthShape, Phaser.Geom.Circle.Contains);
+
+    const moonShape = new Phaser.Geom.Circle(11, 11, 10);
+    this.moon.setInteractive(moonShape, Phaser.Geom.Circle.Contains);
+
+    this.earth.on('pointerover', function () {
+      this.earth.setTint(0xffaaaa);
+    }, this);
+
+    this.earth.on('pointerout', function () {
+      this.earth.clearTint();
+    }, this);
+
+    this.moon.on('pointerover', function () {
+      this.moon.setTint(0xaaffaa);
+    }, this);
+
+    this.moon.on('pointerout', function () {
+      this.moon.clearTint();
+    }, this);
   };
 
   updateMoonPosition(time: number): void {
