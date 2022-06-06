@@ -1,10 +1,10 @@
 import Phaser from "phaser";
+import { WorldGameObject } from "./gameObjects/world";
 
-class MyScene extends Phaser.Scene
-{
+class MyScene extends Phaser.Scene {
   background: Phaser.GameObjects.Image;
-  earth: Phaser.GameObjects.Image;
-  moon: Phaser.GameObjects.Image;
+  earth: WorldGameObject;
+  moon: WorldGameObject;
 
   preload = () => {
     this.load.image("space-bg", "assets/space-bg.png");
@@ -15,43 +15,39 @@ class MyScene extends Phaser.Scene
   create = () => {
     this.background = this.add.image(200, 150, "space-bg");
     this.background.depth = -100;
-    this.earth = this.add.image(200, 150, "earth");
-    this.moon = this.add.image(200, 150, "moon");
 
-    const earthShape = new Phaser.Geom.Circle(41, 41, 40);
-    this.earth.setInteractive(earthShape, Phaser.Geom.Circle.Contains);
-
-    const moonShape = new Phaser.Geom.Circle(11, 11, 10);
-    this.moon.setInteractive(moonShape, Phaser.Geom.Circle.Contains);
+    this.earth = new WorldGameObject(
+      this,
+      { texture: "earth", radius: 40, tintColour: 0xffaaaa },
+      200,
+      150
+    );
+    this.add.existing(this.earth);
+    
+    this.moon = new WorldGameObject(
+      this,
+      { texture: "moon", radius: 10, tintColour: 0xaaffaa },
+      200,
+      150
+    );
+    this.add.existing(this.moon);
 
     this.input.setPollAlways();
-
-    this.earth.on('pointerover', function () {
-      this.earth.setTint(0xffaaaa);
-    }, this);
-
-    this.earth.on('pointerout', function () {
-      this.earth.clearTint();
-    }, this);
-
-    this.moon.on('pointerover', function () {
-      this.moon.setTint(0xaaffaa);
-    }, this);
-
-    this.moon.on('pointerout', function () {
-      this.moon.clearTint();
-    }, this);
   };
 
   updateMoonPosition(time: number): void {
     const orbitRadius = 60;
     const orbitCentreX = 200;
     const orbitCentreY = 150;
-    const tilt = 0.7;  // should range from 0 to 1
-    const period = 5000;  // in milliseconds
+    const tilt = 0.7; // should range from 0 to 1
+    const period = 5000; // in milliseconds
 
-    this.moon.x = orbitCentreX + orbitRadius * Math.sin(time * 2 * Math.PI / period);
-    this.moon.y = orbitCentreY + orbitRadius * Math.cos((time * 2 * Math.PI / period) + (tilt * Math.PI / 2));
+    this.moon.x =
+      orbitCentreX + orbitRadius * Math.sin((time * 2 * Math.PI) / period);
+    this.moon.y =
+      orbitCentreY +
+      orbitRadius *
+        Math.cos((time * 2 * Math.PI) / period + (tilt * Math.PI) / 2);
 
     if (this.moon.x - orbitCentreX < orbitCentreY - this.moon.y) {
       this.moon.depth = -1;
@@ -79,4 +75,4 @@ window.onload = () => {
     version: "0.0.1",
     scene: MyScene,
   });
-}
+};
