@@ -1,9 +1,10 @@
 import Phaser from "phaser";
 
 interface WorldConfig {
-    texture: string;
-    radius: number;
-    tintColour?: number;
+  texture: string;
+  radius: number;
+  name: string;
+  tintColour?: number;
 }
 
 // A "world" is an entity that humans can live on, that is separated by
@@ -16,6 +17,7 @@ interface WorldConfig {
 // between them without going into space and back. Discuss!
 export class WorldGameObject extends Phaser.GameObjects.Container {
   image: Phaser.GameObjects.Image;
+  name: string;
   tintColour: number;
 
   constructor(
@@ -26,9 +28,28 @@ export class WorldGameObject extends Phaser.GameObjects.Container {
   ) {
     super(scene, x, y, []);
     this.image = new Phaser.GameObjects.Image(scene, 0, 0, config.texture);
-    this.tintColour = config.tintColour !== undefined ? config.tintColour : 0xaaaaaa;
     this.add(this.image);
+
+    this.tintColour =
+      config.tintColour !== undefined ? config.tintColour : 0xaaaaaa;
+
+    this.name = config.name;
+    const text = new Phaser.GameObjects.Text(
+      scene,
+      config.radius + 5,
+      0,
+      config.name,
+      {
+        fontSize: "10px",
+        color: `#${this.tintColour.toString(16).padStart(6, "0")}`,
+        stroke: "#000",
+        strokeThickness: 1,
+      }
+    );
+    this.add(text);
+
     this.type = "world";
+
     const earthShape = new Phaser.Geom.Circle(0, 0, config.radius);
     this.setInteractive(earthShape, Phaser.Geom.Circle.Contains);
 

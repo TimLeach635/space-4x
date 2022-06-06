@@ -18,15 +18,15 @@ class MyScene extends Phaser.Scene {
 
     this.earth = new WorldGameObject(
       this,
-      { texture: "earth", radius: 40, tintColour: 0xffaaaa },
+      { name: "Earth", texture: "earth", radius: 40, tintColour: 0xffaaaa },
       200,
       150
     );
     this.add.existing(this.earth);
-    
+
     this.moon = new WorldGameObject(
       this,
-      { texture: "moon", radius: 10, tintColour: 0xaaffaa },
+      { name: "Moon", texture: "moon", radius: 10, tintColour: 0xaaffaa },
       200,
       150
     );
