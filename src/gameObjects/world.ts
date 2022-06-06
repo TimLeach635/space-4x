@@ -46,6 +46,7 @@ export class WorldGameObject extends Phaser.GameObjects.Container {
         strokeThickness: 1,
       }
     );
+    text.setOrigin(0, 0.5);
     this.add(text);
 
     this.type = "world";
