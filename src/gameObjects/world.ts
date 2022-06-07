@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-interface WorldConfig {
+export interface WorldConfig {
   texture: string;
   radius: number;
   name: string;
