@@ -6,13 +6,13 @@ class MyScene extends Phaser.Scene {
   earth: WorldGameObject;
   moon: WorldGameObject;
 
-  preload = () => {
+  preload() {
     this.load.image("space-bg", "assets/space-bg.png");
     this.load.image("earth", "assets/earth.png");
     this.load.image("moon", "assets/moon.png");
   };
 
-  create = () => {
+  create() {
     this.background = this.add.image(200, 150, "space-bg");
     this.background.depth = -100;
 
