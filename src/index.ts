@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { SolarSystemGameObject } from "./gameObjects/solarSystem";
 import { WorldGameObject } from "./gameObjects/world";
 
 class MyScene extends Phaser.Scene {
@@ -8,57 +9,91 @@ class MyScene extends Phaser.Scene {
 
   preload() {
     this.load.image("space-bg", "assets/space-bg.png");
+    this.load.image("venus", "assets/venus.png");
     this.load.image("earth", "assets/earth.png");
     this.load.image("moon", "assets/moon.png");
-  };
+  }
 
   create() {
     this.background = this.add.image(200, 150, "space-bg");
     this.background.depth = -100;
 
-    this.earth = new WorldGameObject(
-      this,
-      { name: "Earth", texture: "earth", radius: 40, tintColour: 0xffaaaa },
-      200,
-      150
-    );
-    this.add.existing(this.earth);
+    // this.earth = new WorldGameObject(
+    //   this,
+    //   { name: "Earth", texture: "earth", radius: 40, tintColour: 0xffaaaa },
+    //   200,
+    //   150
+    // );
+    // this.add.existing(this.earth);
 
-    this.moon = new WorldGameObject(
-      this,
-      { name: "Moon", texture: "moon", radius: 10, tintColour: 0xaaffaa },
-      200,
-      150
-    );
-    this.add.existing(this.moon);
+    // this.moon = new WorldGameObject(
+    //   this,
+    //   { name: "Moon", texture: "moon", radius: 10, tintColour: 0xaaffaa },
+    //   200,
+    //   150
+    // );
+    // this.add.existing(this.moon);
+
+    const solarSystem = new SolarSystemGameObject(this, {
+      planets: [
+        {
+          planet: {
+            name: "Venus",
+            texture: "venus",
+            radius: 40,
+            tintColour: 0x999933,
+          },
+          moons: [],
+        },
+        {
+          planet: {
+            name: "Earth",
+            texture: "earth",
+            radius: 40,
+            tintColour: 0xffaaaa,
+          },
+          moons: [],
+        },
+        {
+          planet: {
+            name: "Moon",
+            texture: "moon",
+            radius: 10,
+            tintColour: 0xaaffaa,
+          },
+          moons: [],
+        },
+      ],
+    });
+    this.add.existing(solarSystem);
 
     this.input.setPollAlways();
-  };
-
-  updateMoonPosition(time: number): void {
-    const orbitRadius = 60;
-    const orbitCentreX = 200;
-    const orbitCentreY = 150;
-    const tilt = 0.7; // should range from 0 to 1
-    const period = 5000; // in milliseconds
-
-    this.moon.x =
-      orbitCentreX + orbitRadius * Math.sin((time * 2 * Math.PI) / period);
-    this.moon.y =
-      orbitCentreY +
-      orbitRadius *
-        Math.cos((time * 2 * Math.PI) / period + (tilt * Math.PI) / 2);
-
-    if (this.moon.x - orbitCentreX < orbitCentreY - this.moon.y) {
-      this.moon.depth = -1;
-    } else {
-      this.moon.depth = 1;
-    }
   }
 
-  update(time: number, delta: number): void {
-    this.updateMoonPosition(time);
-  }
+  // updateMoonPosition(time: number): void {
+  //   const orbitRadius = 60;
+  //   const orbitCentreX = 200;
+  //   const orbitCentreY = 150;
+  //   const tilt = 0.7; // should range from 0 to 1
+  //   const period = 5000; // in milliseconds
+
+  //   this.moon.x =
+  //     orbitCentreX + orbitRadius * Math.sin((time * 2 * Math.PI) / period);
+  //   this.moon.y =
+  //     orbitCentreY +
+  //     orbitRadius *
+  //       Math.cos((time * 2 * Math.PI) / period + (tilt * Math.PI) / 2);
+
+  //   if (this.moon.x - orbitCentreX < orbitCentreY - this.moon.y) {
+  //     this.moon.depth = -1;
+  //   } else {
+  //     this.moon.depth = 1;
+  //   }
+  // }
+
+  // update(time: number, delta: number): void {
+  //   this.updateMoonPosition(time);
+  // }
 }
 
 window.onload = () => {
