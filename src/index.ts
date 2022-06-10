@@ -91,9 +91,9 @@ class MyScene extends Phaser.Scene {
   //   }
   // }
 
-  // update(time: number, delta: number): void {
-  //   this.updateMoonPosition(time);
-  // }
+  update(time: number, delta: number): void {
+    // this.updateMoonPosition(time);
+  }
 }
 
 window.onload = () => {

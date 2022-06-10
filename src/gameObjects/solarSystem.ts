@@ -28,6 +28,7 @@ export class SolarSystemGameObject extends Phaser.GameObjects.Container {
   distanceBetweenPlanets = 200;
 
   planets: Array<Planet>;
+  currentPlanetIndex: number = 0;
 
   constructor(scene: Phaser.Scene, config: SolarSystemConfig) {
     super(scene, 0, 0);
@@ -43,6 +44,44 @@ export class SolarSystemGameObject extends Phaser.GameObjects.Container {
       );
       this.planets.push({ planet: planetObject, moons: [] });
       this.add(planetObject);
+    });
+
+    this.cutCameraToPlanetIndex(0);
+
+    this.scene.input.keyboard.on("keydown-RIGHT", () => {
+      if (this.currentPlanetIndex < this.planets.length - 1) {
+        this.currentPlanetIndex++;
+        this.panCameraToPlanetIndex(this.currentPlanetIndex);
+      }
+    });
+
+    this.scene.input.keyboard.on("keydown-LEFT", () => {
+      if (this.currentPlanetIndex > 0) {
+        this.currentPlanetIndex--;
+        this.panCameraToPlanetIndex(this.currentPlanetIndex);
+      }
+    });
+  }
+
+  cutCameraToPlanetIndex(index: number): void {
+    if (index < 0 || index >= this.planets.length) {
+      throw new Error(`Index ${index} is out of range of the list of planets (length ${this.planets.length})`);
+    }
+    const focusPlanet: WorldGameObject = this.planets[index].planet;
+    this.scene.cameras.main.centerOn(focusPlanet.x, focusPlanet.y);
+  }
+
+  panCameraToPlanetIndex(index: number, duration: number = 200): void {
+    if (index < 0 || index >= this.planets.length) {
+      throw new Error(`Index ${index} is out of range of the list of planets (length ${this.planets.length})`);
+    }
+    const focusPlanet: WorldGameObject = this.planets[index].planet;
+    this.scene.tweens.add({
+      targets: this.scene.cameras.main,
+      scrollX: focusPlanet.x - this.scene.cameras.main.width / 2,
+      scrollY: focusPlanet.y - this.scene.cameras.main.height / 2,
+      duration: duration,
+      ease: "Cubic.easeInOut",
     });
   }
 }
