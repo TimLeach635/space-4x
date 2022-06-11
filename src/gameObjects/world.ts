@@ -1,9 +1,13 @@
 import Phaser from "phaser";
+import { Population } from "./population";
 
 export interface WorldConfig {
   texture: string;
   radius: number;
   name: string;
+  initialPopulation: number;
+  populationGrowthRate: number;
+  populationCapacity: number;
   tintColour?: number;
 }
 
@@ -19,6 +23,7 @@ export class WorldGameObject extends Phaser.GameObjects.Container {
   image: Phaser.GameObjects.Image;
   name: string;
   tintColour: number;
+  population: Population;
 
   constructor(
     scene: Phaser.Scene,
