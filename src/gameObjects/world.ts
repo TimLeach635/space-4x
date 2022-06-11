@@ -23,6 +23,7 @@ export class WorldGameObject extends Phaser.GameObjects.Container {
   image: Phaser.GameObjects.Image;
   name: string;
   tintColour: number;
+  text: Phaser.GameObjects.Text;
   population: Population;
 
   constructor(
@@ -35,11 +36,18 @@ export class WorldGameObject extends Phaser.GameObjects.Container {
     this.image = new Phaser.GameObjects.Image(scene, 0, 0, config.texture);
     this.add(this.image);
 
+    this.population = new Population(
+      scene,
+      config.initialPopulation,
+      config.populationGrowthRate,
+      config.populationCapacity
+    );
+
     this.tintColour =
       config.tintColour !== undefined ? config.tintColour : 0xaaaaaa;
 
     this.name = config.name;
-    const text = new Phaser.GameObjects.Text(
+    this.text = new Phaser.GameObjects.Text(
       scene,
       config.radius + 5,
       0,
@@ -51,8 +59,9 @@ export class WorldGameObject extends Phaser.GameObjects.Container {
         strokeThickness: 1,
       }
     );
-    text.setOrigin(0, 0.5);
-    this.add(text);
+    this.updateText();
+    this.text.setOrigin(0, 0.5);
+    this.add(this.text);
 
     this.type = "world";
 
@@ -74,5 +83,11 @@ export class WorldGameObject extends Phaser.GameObjects.Container {
       },
       this
     );
+
+    this.scene.events.on("update", this.updateText, this);
+  }
+
+  updateText(): void {
+    this.text.setText([this.name, `Population: ${this.population.populationString}`]);
   }
 }

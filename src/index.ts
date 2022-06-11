@@ -18,22 +18,6 @@ class MyScene extends Phaser.Scene {
     this.background = this.add.image(200, 150, "space-bg");
     this.background.depth = -100;
 
-    // this.earth = new WorldGameObject(
-    //   this,
-    //   { name: "Earth", texture: "earth", radius: 40, tintColour: 0xffaaaa },
-    //   200,
-    //   150
-    // );
-    // this.add.existing(this.earth);
-
-    // this.moon = new WorldGameObject(
-    //   this,
-    //   { name: "Moon", texture: "moon", radius: 10, tintColour: 0xaaffaa },
-    //   200,
-    //   150
-    // );
-    // this.add.existing(this.moon);
-
     const solarSystem = new SolarSystemGameObject(this, {
       planets: [
         {
@@ -42,6 +26,9 @@ class MyScene extends Phaser.Scene {
             texture: "venus",
             radius: 40,
             tintColour: 0xffaaaa,
+            initialPopulation: 1,
+            populationGrowthRate: 0.5e-3,
+            populationCapacity: 100,
           },
           moons: [],
         },
@@ -51,6 +38,9 @@ class MyScene extends Phaser.Scene {
             texture: "earth",
             radius: 40,
             tintColour: 0xaaffaa,
+            initialPopulation: 700,
+            populationGrowthRate: 0.5e-3,
+            populationCapacity: 100000,
           },
           moons: [],
         },
@@ -60,6 +50,9 @@ class MyScene extends Phaser.Scene {
             texture: "moon",
             radius: 10,
             tintColour: 0xaaffff,
+            initialPopulation: 1,
+            populationGrowthRate: 0.5e-3,
+            populationCapacity: 1000,
           },
           moons: [],
         },
